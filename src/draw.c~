@@ -1,8 +1,0 @@
-#include "include/library.h"
-
-
-void
-__drawblock(SDL_Renderer * renderer, SDL_Texture * block, int size, int x, int y) {
-    SDL_Rect blockrect = { x, y, size, size };
-    SDL_RenderCopy(renderer, block, NULL, &blockrect);
-}

@@ -11,8 +11,8 @@ SDL_KeyboardEvent *keyboardevent;
 SDL_MouseMotionEvent *motionevent;
 SDL_MouseButtonEvent *buttonevent;
 
-Mix_Chunk* bgm;
-int channel;
+Mix_Chunk      *bgm;
+int             channel;
 
 SDL_Texture    *startimgtexture;
 SDL_Texture    *mainmenutexture;
@@ -31,14 +31,12 @@ SDL_Rect        currentblock = { 0, 0, 0, 0 };
 
 __flags         mainflags = { 0, 0 };
 
-int currentshape = 0;
-int speed = 0;
-int speedcount = 1;
+int             currentshape = 0;
+int             speed = 0;
+int             speedcount = 1;
 /*
-0   1    2   3   4   5   6
-**  ****  ** **   *    * *** 
-**       **   ** *** ***   *
-*/
+ * 0 1 2 3 4 5 6 ** **** ** ** * * *** ** ** ** *** *** * 
+ */
 
 int
 main(int __attribute__ ((unused)) argc, char **
@@ -67,30 +65,29 @@ main(int __attribute__ ((unused)) argc, char **
 	    }
 	}
 
-	if(Mix_Playing(channel) != 0) {
+	if (Mix_Playing(channel) != 0) {
 
 	}
-
 	// SDL_SetWindowFullscreen(mainwindow, SDL_WINDOW_FULLSCREEN);
 
 	SDL_RenderClear(renderer);
 
 	SDL_RenderCopy(renderer, startimgtexture, NULL, NULL);
 
-	for(int i=0;i<7;i++) {
+	for (int i = 0; i < 7; i++) {
 	    __drawshape(renderer, blocktexture, &blockrect, i);
-	    blockrect.x+=150;
+	    blockrect.x += 150;
 	}
-	
-	blockrect.x=100;
-	blockrect.y+=speed;
+
+	blockrect.x = 100;
+	blockrect.y += speed;
 	speedcount++;
-	
-	if(speedcount==30) {
-	    speedcount=0;
+
+	if (speedcount == 30) {
+	    speedcount = 0;
 	    speed++;
 	}
-	
+
 	SDL_RenderPresent(renderer);
 	SDL_Delay(10);
     }
@@ -113,18 +110,18 @@ main(int __attribute__ ((unused)) argc, char **
 
 
 	__loadttf(&menuttf, "font/koverwatch.ttf", 20);
-	
-        Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
+
+	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
 	bgm = Mix_LoadWAV("sound/bgm.wav");
 
 	channel = Mix_PlayChannel(-1, bgm, 0);
-		
+
 	startimgtexture = IMG_LoadTexture(renderer, "img/white2.png");
 	blocktexture = IMG_LoadTexture(renderer, "img/block.png");
 
 	currentshape = rand() % 6;
-	
-	
+
+
 	mainflags.init = 1;
 	goto mainloop;
     }
@@ -141,7 +138,7 @@ main(int __attribute__ ((unused)) argc, char **
 
     Mix_CloseAudio();
     Mix_Quit();
-    
+
     TTF_Quit();
 
     IMG_Quit();
