@@ -20,4 +20,5 @@
 #include "destroy.h"
 #include "error.h"
 #include "draw.h"
+#include "load.h"
 #endif

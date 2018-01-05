@@ -107,6 +107,9 @@ main(int __attribute__ ((unused)) argc, char **
 	__inithandler(&mainflags);
 	__initprinter();
 
+
+
+	
 	keyboardevent = &event.key;
 	buttonevent = &event.button;
 	motionevent = &event.motion;
