@@ -24,6 +24,7 @@ SDL_Texture    *darkblocktexture;
 TTF_Font       *menuttf;
 
 SDL_Rect        blockrect = { 32, 32, 28, 28 };
+SDL_Rect        gameplaterect = { 60, 60, 28, 28 };
 SDL_Rect        currentblock = { 0, 0, 0, 0 };
 
 __flags         mainflags = { 0, 0 };
@@ -32,30 +33,58 @@ int             currentshape = 0;
 int             speed = 0;
 int             speedcount = 1;
 
-Uint8 map[23][13] =
-    {{1,1,1,1,1,1,1,1,1,1,1,1,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,0,0,0,0,0,0,0,0,0,0,0,1},
-     {1,1,1,1,1,1,1,1,1,1,1,1,1}};
+Uint8           map[23][13] = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+Uint8           gamemap[21][11] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+};
+
+__tetromino     tetromino;
+
 int
 main(int __attribute__ ((unused)) argc, char **
      __attribute__ ((unused)) argv) {
@@ -63,19 +92,44 @@ main(int __attribute__ ((unused)) argc, char **
     while (mainflags.running) {
 
 	while (SDL_PollEvent(&event)) {
-	    __printlog("\n");
 	    switch (event.type) {
 	    case SDL_KEYDOWN:
-		__handlekey(&event, &mainflags, &(event.key));
+
+		if (event.key.keysym.sym == SDLK_RIGHT) {
+		    if (__xcollisioncheck(&tetromino, *gamemap, 21, 11, 1)
+			== 0) {
+			__movetetromino(&tetromino, *gamemap, 21, 11, 1,
+					0);
+		    }
+
+		}
+
+		if (event.key.keysym.sym == SDLK_LEFT) {
+		    if (__xcollisioncheck(&tetromino, *gamemap, 21, 11, 0)
+			== 0) {
+			__movetetromino(&tetromino, *gamemap, 21, 11, -1,
+					0);
+		    }
+		}
+
+		if (event.key.keysym.sym == SDLK_UP) {
+		    __rotatetetromino(&tetromino, *gamemap, 21, 11, 0);
+		}
+
+		if (event.key.keysym.sym == SDLK_DOWN) {
+		    speed++;
+		}
+
+		if (event.key.keysym.sym == SDLK_ESCAPE) {
+		    __handlequit(&event, &mainflags);
+		}
+
 		break;
 	    case SDL_MOUSEBUTTONDOWN:
-		__printmousebutton(&event, &(event.button));
 		break;
 	    case SDL_MOUSEMOTION:
-		__printmousemotion(&event, &(event.motion));
 		break;
 	    case SDL_QUIT:
-		__printquit(&event);
 		__handlequit(&event, &mainflags);
 		break;
 	    default:
@@ -83,18 +137,39 @@ main(int __attribute__ ((unused)) argc, char **
 	    }
 	}
 
-	if (Mix_Playing(channel) != 0) {}
+	if (__ycollisioncheck(&tetromino, *gamemap, 21, 11) == 0) {
+	    __movetetromino(&tetromino, *gamemap, 21, 11, 0, 1);
+	} else {
+	    if(__createblock(&tetromino, rand() % 7, *map, 21, 11) == 1) {
+		__handlequit(&event, &mainflags);
+	    }
+	    else {
+		__linefilledcheck(&tetromino, *gamemap, 21, 11);
+	    }
+	}
+	
+
+	if (Mix_Playing(channel) != 0) {
+	}
+
+	
 
 	SDL_RenderClear(renderer);
 
 	SDL_RenderCopy(renderer, startimgtexture, NULL, NULL);
 
-	__drawmap(renderer, blocktexture, darkblocktexture, &blockrect, &map);
+	__drawmap(renderer, blocktexture, darkblocktexture, &blockrect,
+		  *map, 23, 13);
+
+	__drawmap(renderer, blocktexture, darkblocktexture, &gameplaterect,
+		  *gamemap, 21, 11);
 
 
-	
 	SDL_RenderPresent(renderer);
-	SDL_Delay(10);
+
+
+
+	SDL_Delay(200);
     }
 
     if (!mainflags.init) {
@@ -102,8 +177,8 @@ main(int __attribute__ ((unused)) argc, char **
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG);
 
-	__initwindow(&mainwindow, "debug");
-	__initrenderer(&renderer);
+	__initwindow(&mainwindow, "debug", width, height);
+	__initrenderer(&renderer, &mainwindow);
 	__inithandler(&mainflags);
 	__initprinter();
 
@@ -123,6 +198,10 @@ main(int __attribute__ ((unused)) argc, char **
 	blocktexture = IMG_LoadTexture(renderer, "img/block.png");
 	darkblocktexture = IMG_LoadTexture(renderer, "img/darkblock.png");
 
+	srand(time(NULL));
+
+	__createblock(&tetromino, 0, *gamemap, 21, 11);
+
 	mainflags.init = 1;
 	goto mainloop;
     }
@@ -137,21 +216,3 @@ main(int __attribute__ ((unused)) argc, char **
     IMG_Quit();
     SDL_Quit();
 }
-
-void
-__initwindow(SDL_Window ** windowptr, const char *restrict text) {
-    *windowptr =
-	SDL_CreateWindow(text, SDL_WINDOWPOS_UNDEFINED,
-			 SDL_WINDOWPOS_UNDEFINED, width, height,
-			 SDL_WINDOW_OPENGL);
-    __errorcheck(*windowptr, "initwindow");
-}
-
-void
-__initrenderer(SDL_Renderer ** rendererptr) {
-    *rendererptr = NULL;
-    *rendererptr = SDL_CreateRenderer(mainwindow, -1,
-				      SDL_RENDERER_ACCELERATED);
-    __errorcheck(*rendererptr, "renderer");
-}
-

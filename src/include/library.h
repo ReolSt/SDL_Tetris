@@ -21,4 +21,5 @@
 #include "error.h"
 #include "draw.h"
 #include "load.h"
+#include "game.h"
 #endif

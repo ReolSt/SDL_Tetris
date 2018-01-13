@@ -82,19 +82,21 @@ __drawshape(SDL_Renderer * renderer, SDL_Texture * block, SDL_Rect * rect,
 }
 
 void
-__drawmap(SDL_Renderer * renderer, SDL_Texture * trueblock, SDL_Texture * falseblock, SDL_Rect *startrect, Uint8 (*map)[23][13]) {
-    SDL_Rect dummyrect = {startrect->x, startrect->y, startrect->w, startrect->h};
-    for(int i=0;i<23;i++) {
-	for(int j=0;j<13;j++) {
-	    if((*map)[i][j] == 1) {
+__drawmap(SDL_Renderer * renderer, SDL_Texture * trueblock,
+	  SDL_Texture * falseblock, SDL_Rect * startrect,
+	  Uint8 * map, int size1, int size2) {
+    SDL_Rect        dummyrect =
+	{ startrect->x, startrect->y, startrect->w, startrect->h };
+    for (int i = 0; i < size1; i++) {
+	for (int j = 0; j < size2; j++) {
+	    if (*((map + j) + i * size2) == 1) {
 		SDL_RenderCopy(renderer, trueblock, NULL, &dummyrect);
-	    }
-	    else {
+	    } else {
 		SDL_RenderCopy(renderer, falseblock, NULL, &dummyrect);
 	    }
-	    dummyrect.x+=startrect->w;
+	    dummyrect.x += startrect->w;
 	}
-	dummyrect.x=startrect->x;
-	dummyrect.y+=startrect->h;
+	dummyrect.x = startrect->x;
+	dummyrect.y += startrect->h;
     }
 }

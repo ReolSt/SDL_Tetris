@@ -18,10 +18,8 @@ __handlekey(SDL_Event * __attribute__ ((unused)) event,
 	    SDL_KeyboardEvent * key) {
     switch (key->type) {
     case SDL_KEYUP:
-	__printlog("KEYUP\n");
 	break;
     case SDL_KEYDOWN:
-	__printlog("KEYDOWN\n");
 	__handlekeysym(event, flags, &(key->keysym));
 	break;
     default:
