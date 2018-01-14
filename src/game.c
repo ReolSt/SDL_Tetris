@@ -48,9 +48,9 @@ __createblock(__tetromino * tetromino, int kind, Uint8 * map, int
     for (int i = 0; i < 4; i++) {
 	xs[i] = tetromino->blocks[i].x;
 	ys[i] = tetromino->blocks[i].y;
-	//	if(*((map + xs[i]) + ys[i] * size2) == 1) {
-	//  return 1;
-	//}
+	// if(*((map + xs[i]) + ys[i] * size2) == 1) {
+	// return 1;
+	// }
 	*((map + xs[i]) + ys[i] * size2) = 1;
     }
     return 0;
@@ -80,73 +80,81 @@ __movetetromino(__tetromino * tetromino, Uint8 * map, int size1, int size2,
 void
 __rotatetetromino(__tetromino * tetromino, Uint8 * map, int size1,
 		  int size2, int direction) {
-    __tetromino rotated;
-    Uint8 tmpmap[size1][size2];
-    int xs[4];
-    int ys[4];
-    int centerx;
-    int centery; 
-    for(int i=0;i<size1;i++) {
-	for(int j=0;j<size2;j++) {
-	    tmpmap[i][j] = *((map+j)+i*size2);
+    __tetromino     rotated;
+    Uint8           tmpmap[size1][size2];
+    int             xs[4];
+    int             ys[4];
+    int             centerx;
+    int             centery;
+    for (int i = 0; i < size1; i++) {
+	for (int j = 0; j < size2; j++) {
+	    tmpmap[i][j] = *((map + j) + i * size2);
 	}
     }
-    
-    for(int i=0;i<4;i++) {
+
+    for (int i = 0; i < 4; i++) {
 	xs[i] = tetromino->blocks[i].x;
 	ys[i] = tetromino->blocks[i].y;
 	tmpmap[xs[i]][ys[i]] = 0;
     }
-    
-    for(int i=0;i<4;i++) {
-	
-	centerx=tetromino->blocks[i].x;
-	centery=tetromino->blocks[i].y;
-	
-	for(int j=0;j<4;j++) {
+
+    for (int i = 0; i < 4; i++) {
+
+	centerx = tetromino->blocks[i].x;
+	centery = tetromino->blocks[i].y;
+
+	for (int j = 0; j < 4; j++) {
 	    rotated.blocks[i].x = centerx;
 	    rotated.blocks[i].y = centery;
-	    if(j!=i) {
-		rotated.blocks[j].x = centerx + (centery-ys[j]);
-		rotated.blocks[j].y = centery - (centerx-xs[j]);
+	    if (j != i) {
+		rotated.blocks[j].x = centerx + (centery - ys[j]);
+		rotated.blocks[j].y = centery - (centerx - xs[j]);
 	    }
-	    
-	    if(tmpmap[rotated.blocks[j].x][rotated.blocks[j].y] == 1 || rotated.blocks[i].x < 0 || rotated.blocks[i].y < 0 || rotated.blocks[i].x >= size2 || rotated.blocks[i].y >= size1) {
+
+	    if (tmpmap[rotated.blocks[j].x][rotated.blocks[j].y] == 1
+		|| rotated.blocks[i].x < 0 || rotated.blocks[i].y < 0
+		|| rotated.blocks[i].x >= size2
+		|| rotated.blocks[i].y >= size1) {
 		break;
 	    }
-	    
-	    if(i<3 && j == 3) {
-		for(int k=0;k<4;k++) {		    
-		    *((map+tetromino->blocks[k].x)+tetromino->blocks[k].y*size2) = 0;
+
+	    if (i < 3 && j == 3) {
+		for (int k = 0; k < 4; k++) {
+		    *((map + tetromino->blocks[k].x) +
+		      tetromino->blocks[k].y * size2) = 0;
 		    tetromino->blocks[k].x = rotated.blocks[k].x;
 		    tetromino->blocks[k].y = rotated.blocks[k].y;
-		    *((map+tetromino->blocks[k].x)+tetromino->blocks[k].y*size2) = 1;
-		    
+		    *((map + tetromino->blocks[k].x) +
+		      tetromino->blocks[k].y * size2) = 1;
+
 		}
 		printf("\n");
 		return;
-		
-	    }
-	    else {
-		if(i==3 && j==2) {
-		    for(int k=0;k<4;k++) {
-			printf("i = %d j = %d x%d = %d y%d = %d ",i,j,k,rotated.blocks[k].x,k,rotated.blocks[k].y);
-			
-		        *((map+tetromino->blocks[k].x)+tetromino->blocks[k].y*size2) = 0;
-		        tetromino->blocks[k].x = rotated.blocks[k].x;
-		        tetromino->blocks[k].y = rotated.blocks[k].y;
-		        *((map+tetromino->blocks[k].x)+tetromino->blocks[k].y*size2) = 1;
-			
+
+	    } else {
+		if (i == 3 && j == 2) {
+		    for (int k = 0; k < 4; k++) {
+			printf("i = %d j = %d x%d = %d y%d = %d ", i, j, k,
+			       rotated.blocks[k].x, k,
+			       rotated.blocks[k].y);
+
+			*((map + tetromino->blocks[k].x) +
+			  tetromino->blocks[k].y * size2) = 0;
+			tetromino->blocks[k].x = rotated.blocks[k].x;
+			tetromino->blocks[k].y = rotated.blocks[k].y;
+			*((map + tetromino->blocks[k].x) +
+			  tetromino->blocks[k].y * size2) = 1;
+
 		    }
 		    printf("\n");
 		    return;
 		}
 	    }
-	
+
 	}
-    
+
     }
-    
+
     return;
 }
 
@@ -241,7 +249,8 @@ __ycollisioncheck(__tetromino * tetromino, Uint8 * map, int size1,
 }
 
 int
-__linefilledcheck(__tetromino *tetromino, Uint8 * map, int size1, int size2) {
+__linefilledcheck(__tetromino * tetromino, Uint8 * map, int size1,
+		  int size2) {
     int             scoretoadd = 0;
     int             flag = 1;
     int             tmp = 0;
@@ -263,29 +272,31 @@ __linefilledcheck(__tetromino *tetromino, Uint8 * map, int size1, int size2) {
 	    flag = 1;
 	}
     }
-    if(scoretoadd > 0) {
-	for(int i=tmp;i>0;i--) {
-	    for(int j=0;j<size2;j++) {
-		if(*((map+j)+(i)*size2) == 1) {
-		    for(int k=0;k<4;k++) {
-			if(j == tetromino->blocks[k].x && i == tetromino->blocks[k].y) {
+    if (scoretoadd > 0) {
+	for (int i = tmp; i > 0; i--) {
+	    for (int j = 0; j < size2; j++) {
+		if (*((map + j) + (i) * size2) == 1) {
+		    for (int k = 0; k < 4; k++) {
+			if (j == tetromino->blocks[k].x
+			    && i == tetromino->blocks[k].y) {
 			    continue;
 			}
 		    }
-		    *((map+j)+(i)*size2) = 0;
-		    tmpmap[i+scoretoadd][j] = 1;
+		    *((map + j) + (i) * size2) = 0;
+		    tmpmap[i + scoretoadd][j] = 1;
 		}
 	    }
 	}
-	for(int i=0;i<size1;i++) {
-	    for(int j=0;j<size2;j++) {
-		if(tmpmap[i][j]==1) {
-		    for(int k=0;k<4;k++) {
-			if(j == tetromino->blocks[k].x && i == tetromino->blocks[k].y) {
+	for (int i = 0; i < size1; i++) {
+	    for (int j = 0; j < size2; j++) {
+		if (tmpmap[i][j] == 1) {
+		    for (int k = 0; k < 4; k++) {
+			if (j == tetromino->blocks[k].x
+			    && i == tetromino->blocks[k].y) {
 			    continue;
 			}
 		    }
-		    *((map+j)+i*size2) = 1;
+		    *((map + j) + i * size2) = 1;
 		}
 	    }
 	}

@@ -140,19 +140,18 @@ main(int __attribute__ ((unused)) argc, char **
 	if (__ycollisioncheck(&tetromino, *gamemap, 21, 11) == 0) {
 	    __movetetromino(&tetromino, *gamemap, 21, 11, 0, 1);
 	} else {
-	    if(__createblock(&tetromino, rand() % 7, *map, 21, 11) == 1) {
+	    if (__createblock(&tetromino, rand() % 7, *map, 21, 11) == 1) {
 		__handlequit(&event, &mainflags);
-	    }
-	    else {
+	    } else {
 		__linefilledcheck(&tetromino, *gamemap, 21, 11);
 	    }
 	}
-	
+
 
 	if (Mix_Playing(channel) != 0) {
 	}
 
-	
+
 
 	SDL_RenderClear(renderer);
 
