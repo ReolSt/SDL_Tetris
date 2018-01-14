@@ -27,7 +27,8 @@ SDL_Rect        blockrect = { 32, 32, 28, 28 };
 SDL_Rect        gameplaterect = { 60, 60, 28, 28 };
 SDL_Rect        currentblock = { 0, 0, 0, 0 };
 
-__flags         mainflags = { 0, 0 };
+int running = 0;
+int init = 0;
 
 int             currentshape = 0;
 int             speed = 0;
@@ -89,7 +90,7 @@ int
 main(int __attribute__ ((unused)) argc, char **
      __attribute__ ((unused)) argv) {
   mainloop:
-    while (mainflags.running) {
+    while (running) {
 
 	while (SDL_PollEvent(&event)) {
 	    switch (event.type) {
@@ -121,7 +122,7 @@ main(int __attribute__ ((unused)) argc, char **
 		}
 
 		if (event.key.keysym.sym == SDLK_ESCAPE) {
-		    mainflags.running=0;
+		    running=0;
 		}
 
 		break;
@@ -130,7 +131,7 @@ main(int __attribute__ ((unused)) argc, char **
 	    case SDL_MOUSEMOTION:
 		break;
 	    case SDL_QUIT:
-		mainflags.running=0;
+		running=0;
 		break;
 	    default:
 		break;
@@ -141,7 +142,7 @@ main(int __attribute__ ((unused)) argc, char **
 	    __movetetromino(&tetromino, *gamemap, 21, 11, 0, 1);
 	} else {
 	    if (__createblock(&tetromino, rand() % 7, *map, 21, 11) == 1) {
-		__handlequit(&event, &mainflags);
+		running=0;
 	    } else {
 		__linefilledcheck(&tetromino, *gamemap, 21, 11);
 	    }
@@ -171,16 +172,15 @@ main(int __attribute__ ((unused)) argc, char **
 	SDL_Delay(200);
     }
 
-    if (!mainflags.init) {
+    if (!init) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG);
 
 	__initwindow(&mainwindow, "debug", width, height);
 	__initrenderer(&renderer, &mainwindow);
-	__initprinter();
 
-	mainflags.running = 1;
+	running = 1;
 
 	keyboardevent = &event.key;
 	buttonevent = &event.button;
@@ -202,13 +202,13 @@ main(int __attribute__ ((unused)) argc, char **
 
 	__createblock(&tetromino, 0, *gamemap, 21, 11);
 
-	mainflags.init = 1;
+	init = 1;
+	
 	goto mainloop;
     }
     __destroyttf(&menuttf);
     __destroywindow(&mainwindow);
     __destroyrenderer(&renderer);
-    __destroyprinter();
     Mix_FreeChunk(bgm);
     Mix_CloseAudio();
     Mix_Quit();

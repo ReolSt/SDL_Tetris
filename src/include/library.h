@@ -15,8 +15,6 @@
 #include <stdarg.h>
 
 #include "init.h"
-#include "print.h"
-#include "handle.h"
 #include "destroy.h"
 #include "error.h"
 #include "draw.h"
