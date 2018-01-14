@@ -121,7 +121,7 @@ main(int __attribute__ ((unused)) argc, char **
 		}
 
 		if (event.key.keysym.sym == SDLK_ESCAPE) {
-		    __handlequit(&event, &mainflags);
+		    mainflags.running=0;
 		}
 
 		break;
@@ -130,7 +130,7 @@ main(int __attribute__ ((unused)) argc, char **
 	    case SDL_MOUSEMOTION:
 		break;
 	    case SDL_QUIT:
-		__handlequit(&event, &mainflags);
+		mainflags.running=0;
 		break;
 	    default:
 		break;
@@ -178,8 +178,9 @@ main(int __attribute__ ((unused)) argc, char **
 
 	__initwindow(&mainwindow, "debug", width, height);
 	__initrenderer(&renderer, &mainwindow);
-	__inithandler(&mainflags);
 	__initprinter();
+
+	mainflags.running = 1;
 
 	keyboardevent = &event.key;
 	buttonevent = &event.button;
